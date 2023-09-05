@@ -2,7 +2,7 @@ import os
 import re
 
 ###############################
-ORIGIN_DIRECTORY = "tests"
+ORIGIN_DIRECTORY = "NetPlus\\data\\sous-titres-Copie"
 ###############################
 
 def directories_with_srt(directory):
@@ -62,7 +62,7 @@ def main(directorypath):
     encoding = 'ansi'
 
     # Create a dedicated directory for the converted files
-    new_dir = 'srt_to_txt'
+    new_dir = "..\\1txt\\Transcription"
     try:
         os.makedirs(os.path.join(directorypath, new_dir))
     except FileExistsError:
