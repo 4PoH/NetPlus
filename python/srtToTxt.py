@@ -3,20 +3,18 @@ import re
 import unidecode
 
 ###############################
-ORIGIN_DIRECTORY = "NetPlus\\data\\testscopy"
-ENCODING = "ansi"
 ###############################
 
 def lister_srt(dossierDepart):
     # Fonction pour obtenir la liste des fichiers sous un dossier donné
     srt_files = [] # Liste pour stocker les fichiers .srt
     for dirpath, dirnames, filenames in os.walk(dossierDepart, topdown=True):
-        for filename in filenames:
-            if filename.endswith(".srt"):
-                path = os.path.join(dirpath, filename)
-                if path not in srt_files:
-                    srt_files.append(path)
-                    # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
+      for filename in filenames:
+        if filename.endswith(".srt"):
+          path = os.path.join(dirpath, filename)
+          if path not in srt_files:
+            srt_files.append(path)
+            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
     return srt_files
 
 ###############################
@@ -54,16 +52,19 @@ def is_lowercase_letter_or_comma(letter):
   return False
 
 def remove_items(line):
-    newline = line.replace('<i>', '').replace('</i>', '')
-    newline = newline.replace(' -', '').replace('- ', '')
-    newline = newline.replace(' :', '').replace(': ', '').replace(':', '')
-    newline = newline.replace('...', '')
-    newline = newline.replace('.', '')
-    newline = newline.replace('?', '')
-    newline = newline.replace('!', '')
-    newline = newline.replace(',', '')
-    newline = newline.replace('"', '')
-    return newline
+  newline = line.replace('<i>', '').replace('</i>', '')
+  newline = newline.replace(' -', '').replace('- ', '')
+  newline = newline.replace(' :', '').replace(': ', '').replace(':', '')
+  newline = newline.replace('...', '')
+  newline = newline.replace('.', '')
+  newline = newline.replace('?', '')
+  newline = newline.replace('!', '')
+  newline = newline.replace(',', '')
+  newline = newline.replace('"', '')
+  return newline
+
+###############################
+###############################
 
 def clean_up(lines):
   """
@@ -84,57 +85,27 @@ def clean_up(lines):
       new_lines.append(line.lower())  # Convert to lowercase
   return new_lines
 
-def filtrage(file,encoding):
+def filtrage(dossier, encoding='utf-8'):
   """
-    args 1 : file name
+    args 1 : dossier name
     args 2 : encoding. Default: utf-8.
-      - If you get a lot of [?]s replacing characters,
-      - you probably need to change file_encoding to 'cp1252'
+    - If you get a lot of [?]s replacing characters,
+    - you probably need to change file_encoding to 'cp1252'
   """
-  file_name = file
-  file_encoding = encoding
-  with open(file_name, encoding=file_encoding, errors='replace') as f:
+  for dirpath, dirnames, filenames in os.walk(dossier):
+    new_lines = []
+
+  for filename in filenames:
+    if filename.endswith(".srt"):
+      file_name = os.path.join(dirpath, filename)
+
+  with open(file_name, encoding=encoding, errors='replace') as f:
     lines = f.readlines()
-    new_lines = clean_up(lines)
-  new_file_name = file_name[:-4] + '.txt'
+    new_lines.extend(clean_up(lines))
+
+  dossier_name = os.path.basename(os.path.normpath(dirpath))  # Obtient le nom du sous-répertoire
+  new_file_name = os.path.join(dirpath, f"{dossier_name}.txt")
   with open(new_file_name, 'w') as f:
     for line in new_lines:
       line = unidecode.unidecode(line)
       f.write(line)
-
-def filtrage2(dossier, encoding='utf-8'):
-    """
-    args 1 : dossier name
-    args 2 : encoding. Default: utf-8.
-      - If you get a lot of [?]s replacing characters,
-      - you probably need to change file_encoding to 'cp1252'
-    """
-    for dirpath, dirnames, filenames in os.walk(dossier):
-        new_lines = []
-
-        for filename in filenames:
-            if filename.endswith(".srt"):
-                file_name = os.path.join(dirpath, filename)
-
-                with open(file_name, encoding=encoding, errors='replace') as f:
-                    lines = f.readlines()
-                    new_lines.extend(clean_up(lines))
-
-        dossier_name = os.path.basename(os.path.normpath(dirpath))  # Obtient le nom du sous-répertoire
-        new_file_name = os.path.join(dirpath, f"{dossier_name}.txt")
-        with open(new_file_name, 'w') as f:
-            for line in new_lines:
-                line = unidecode.unidecode(line)
-                f.write(line)
-
-###############################
-###############################
-
-if __name__=='__main__':
-    liste_srt = lister_srt(ORIGIN_DIRECTORY)
-    #print(liste_srt)
-    # for element in liste_srt:
-    #    filtrage2(element,ENCODING)
-    #filtrage2("NetPlus\\data\\testscopy\\breakingbad",ENCODING)
-    print('ok')
-    
