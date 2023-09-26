@@ -2,13 +2,14 @@ import nom as nom
 import srtToTxt as srtToTxt
 import subToTxt as subToTxt
 import assToTxt as assToTxt
+import unzipClean as unzipClean
 import os
 
 #######################
 ###### VARIABLES ######
 #######################
 
-DOSSIER = "NetPlus\data\\testscopy"  # Remplacez par le chemin de votre dossier
+DOSSIER = "NetPlus\data\sous-titres-Copie1"  # Remplacez par le chemin de votre dossier
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
 ENCODING = "ansi"
 
@@ -35,7 +36,7 @@ print(compteur(DOSSIER))
 #######################
 
 # Dézipper les fichiers à partir du répertoire donné
-
+unzipClean.unzip_clean(DOSSIER)
 
 # Récupérer le nom des series et les mettres dans le csv
 # nom.lister_noms_dossiers(DOSSIER, FICHIER_CSV)
@@ -52,7 +53,7 @@ for element in liste_fichiers_srt:
     #print(element) # Pour voir le nom des fichiers qui sont traités
     srtToTxt.filtrage(element,ENCODING)
     compteur += 1
-    print(f"{compteur} / {total} traités")
+    #print(f"{compteur} / {total} traités")
 print(f"{compteur} / {total} traités")
 
 # #srtToTxt.filtrage("data\\testZippage\\sous-titres-adezipper\\xfiles\\XFiles-s09e19-20.srt", ENCODING)

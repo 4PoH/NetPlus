@@ -6,7 +6,7 @@ import unidecode
 ###############################
 
 def lister_srt(dossierDepart):
-    c1,c2,c3,c4 = 0,0,0,0
+    srt,vo,ass,sub = 0,0,0,0
     # Fonction pour obtenir la liste des fichiers sous un dossier donné
     srt_files = [] # Liste pour stocker les fichiers .srt
     for dirpath, dirnames, filenames in os.walk(dossierDepart, topdown=True):
@@ -14,31 +14,60 @@ def lister_srt(dossierDepart):
         if (filename.endswith(".srt")):
           path = os.path.join(dirpath, filename)
           if path not in srt_files:
-            c1 += 1
+            srt += 1
             srt_files.append(path)
             # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
 
         if (filename.endswith(".SRT")):
           path = os.path.join(dirpath, filename)
           if path not in srt_files:
-            c2 += 1
+            srt += 1
             srt_files.append(path)
             # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
 
         if (filename.endswith(".vo")):
           path = os.path.join(dirpath, filename)
           if path not in srt_files:
-            c3 += 1
+            vo += 1
             srt_files.append(path)
             # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
 
         if (filename.endswith(".VO")):
           path = os.path.join(dirpath, filename)
           if path not in srt_files:
-            c4 += 1
+            vo += 1
             srt_files.append(path)
             # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-    print(f"c1 = {c1}, c2 = {c2}, c3 = {c3}, c4 = {c4}")
+
+        if (filename.endswith(".ass")):
+          path = os.path.join(dirpath, filename)
+          if path not in srt_files:
+            ass += 1
+            srt_files.append(path)
+            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
+
+        if (filename.endswith(".ASS")):
+          path = os.path.join(dirpath, filename)
+          if path not in srt_files:
+            ass += 1
+            srt_files.append(path)
+            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
+
+        if (filename.endswith(".sub")):
+          path = os.path.join(dirpath, filename)
+          if path not in srt_files:
+            sub += 1
+            srt_files.append(path)
+            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
+
+        if (filename.endswith(".SUB")):
+          path = os.path.join(dirpath, filename)
+          if path not in srt_files:
+            sub += 1
+            srt_files.append(path)
+            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
+
+    print(f".srt = {srt}, .vo = {vo}, ass = {ass}, sub = {sub}")
     return srt_files
 
 ###############################
@@ -90,6 +119,7 @@ def is_lowercase_letter_or_comma(letter):
 def remove_items(line):
   newline = line.replace('<i>', '').replace('</i>', '')
   newline = newline.replace(' -', '').replace('- ', '')
+  newline = newline.replace('(', '').replace(')', '')
   newline = newline.replace(' :', '').replace(': ', '').replace(':', '')
   newline = newline.replace('...', '')
   newline = newline.replace('.', '')

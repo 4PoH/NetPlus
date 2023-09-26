@@ -13,8 +13,8 @@ def unzip_clean(starting_dir, return_broken_zip=False):
                     try:
                         fichierzip = (path + '/' + filename)
                         with zipfile.ZipFile(fichierzip, 'r') as zip_ref:
-                            zip_ref.extractall(fichierzip)
-                        print(f"FINISH {filename}")
+                            zip_ref.extractall(path)
+                        print(f"FINISH : {filename}")
                         os.remove(fichierzip)
                     except:
                         broken_zip.append(filename)
