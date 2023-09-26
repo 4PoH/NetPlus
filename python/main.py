@@ -8,7 +8,7 @@ import os
 ###### VARIABLES ######
 #######################
 
-DOSSIER = "data\\testZippage\\sous-titres-adezipper"  # Remplacez par le chemin de votre dossier
+DOSSIER = "NetPlus\data\\testscopy"  # Remplacez par le chemin de votre dossier
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
 ENCODING = "ansi"
 
@@ -34,22 +34,26 @@ print(compteur(DOSSIER))
 ###### EXECUTION ######
 #######################
 
+# Dézipper les fichiers à partir du répertoire donné
+
+
 # Récupérer le nom des series et les mettres dans le csv
 # nom.lister_noms_dossiers(DOSSIER, FICHIER_CSV)
 # nom.modifier_titres_majuscules(FICHIER_CSV)
 
 # Récupérer la liste des .srt à transformer en texte
 liste_fichiers_srt = srtToTxt.lister_srt(DOSSIER)
-# print("1")
+#print(liste_fichiers_srt)
 
-# compteur = 0
-# print(liste_fichiers_srt)
-# for element in liste_fichiers_srt:
-#     #print(element) # Pour voir le nom des fichiers qui sont traités
-#     srtToTxt.filtrage(element,ENCODING)
-#     compteur += 1
-#     print(compteur)
-# print(f"{compteur} / {len(liste_fichiers_srt)} traités")
+compteur = 0
+total = len(liste_fichiers_srt)
+#print(liste_fichiers_srt)
+for element in liste_fichiers_srt:
+    #print(element) # Pour voir le nom des fichiers qui sont traités
+    srtToTxt.filtrage(element,ENCODING)
+    compteur += 1
+    print(f"{compteur} / {total} traités")
+print(f"{compteur} / {total} traités")
 
 # #srtToTxt.filtrage("data\\testZippage\\sous-titres-adezipper\\xfiles\\XFiles-s09e19-20.srt", ENCODING)
 
