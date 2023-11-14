@@ -2,23 +2,28 @@ import re
 import os
 import unidecode
 
-def recup_dialogue(input_lines):
+def recup_dialogue(file_content, encoding="ansi"):
+    lines = file_content.splitlines()
     subtitles = []
-    for line in input_lines:
+    for line in lines:
         if line.startswith("Dialogue:"):
             parts = line.split(',')
             start_time = parts[1]
             end_time = parts[2]
             text = ','.join(parts[9:]).strip()
             subtitles.append(f"{start_time} --> {end_time}\n{text}\n\n")
-    return subtitles
+    return '\n'.join(subtitles)
 
 def cleanSubtitleText(subtitle_text):
-    # Supprimer les balises <i> et </i>
-    cleaned_text = subtitle_text.replace('<i>', '').replace('</i>', '')
+    # Utiliser une expression régulière pour retirer les balises de formatage et les timestamps
+    cleaned_text = re.sub(r'{\\[^}]+}', '', subtitle_text)
+    cleaned_text = re.sub(r'\d+:\d+:\d+\.\d+ --> \d+:\d+:\d+\.\d+\n', '', cleaned_text)
     
     # Retirer les retours à la ligne et les espaces en double
     cleaned_text = cleaned_text.replace('\n', ' ').replace('  ', ' ')
+    
+    # Remplacer les occurrences de \N par un espace
+    cleaned_text = cleaned_text.replace('\\N', ' ')
     
     return cleaned_text.strip()
 
@@ -34,10 +39,8 @@ def filtrage(fichier, fichier_destination, encoding='utf-8'):
 
     with open(fichier, encoding=encoding, errors='replace') as f:
         lines = f.readlines()
-        dialogues = recup_dialogue(lines)
-        for dialogue in dialogues:
-            cleaned_text = cleanSubtitleText(dialogue)
-            new_lines.extend(cleaned_text)
+        dialogue = recup_dialogue(lines,encoding)
+        new_lines.extend(cleanSubtitleText(dialogue))
 
     # Crée le dossier si nécessaire
     destination_folder = os.path.dirname(fichier_destination)

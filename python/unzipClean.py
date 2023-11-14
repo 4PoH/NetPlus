@@ -7,11 +7,13 @@ def unzip_clean(starting_dir, return_broken_zip=False):
     while(again):
         again = False
         for path, dirs, files in os.walk(starting_dir):
+            #print(path)
+            destination = path
             for filename in files:
-                if filename.endswith('.zip') and filename not in broken_zip:
+                if (filename.endswith('.zip') or filename.endswith('.rar')) and filename not in broken_zip:
                     again = True
                     try:
-                        fichierzip = (path + '/' + filename)
+                        fichierzip = (destination + '/' + filename)
                         with zipfile.ZipFile(fichierzip, 'r') as zip_ref:
                             zip_ref.extractall(path)
                         print(f"FINISH : {filename}")
@@ -20,5 +22,8 @@ def unzip_clean(starting_dir, return_broken_zip=False):
                         broken_zip.append(filename)
                         print(f" ERROR : {filename}")
                         continue
-    if return_broken_zip == True:
-        return_broken_zip
+
+    # if return_broken_zip == True:
+    #     return broken_zip
+
+# unzip_clean("NetPlus/data/tests-Copie")

@@ -2,6 +2,7 @@ import nom as nom
 import srtToTxt as srtToTxt
 import subToTxt as subToTxt
 import assToTxt as assToTxt
+import lematisation as lema
 import unzipClean as unzipClean
 import os
 
@@ -10,6 +11,7 @@ import os
 #######################
 
 DOSSIER = "NetPlus\data\sous-titres-Copie1"  # Remplacez par le chemin de votre dossier
+DOSSIER_DESTINATION = "NetPlus/data/sous-titres-Copie1/1txt"
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
 ENCODING = "ansi"
 
@@ -29,7 +31,7 @@ def compteur(dossierDepart):
                 i = i + 1
     return i
 
-print(compteur(DOSSIER))
+# print(compteur(DOSSIER))
 
 #######################
 ###### EXECUTION ######
@@ -41,30 +43,53 @@ unzipClean.unzip_clean(DOSSIER)
 # Récupérer le nom des series et les mettres dans le csv
 # nom.lister_noms_dossiers(DOSSIER, FICHIER_CSV)
 # nom.modifier_titres_majuscules(FICHIER_CSV)
-
+2
 # Récupérer la liste des .srt à transformer en texte
 liste_fichiers_srt = srtToTxt.lister_srt(DOSSIER)
 #print(liste_fichiers_srt)
 
 compteur = 0
 total = len(liste_fichiers_srt)
-#print(liste_fichiers_srt)
 for element in liste_fichiers_srt:
-    #print(element) # Pour voir le nom des fichiers qui sont traités
-    srtToTxt.filtrage(element,ENCODING)
+    srtToTxt.filtrage(element,DOSSIER_DESTINATION,ENCODING)
     compteur += 1
-    #print(f"{compteur} / {total} traités")
-print(f"{compteur} / {total} traités")
+    print(f"{compteur} / {total} fichier .srt traités")
+print(f"{compteur} / {total} fichier .srt traités")
 
-# #srtToTxt.filtrage("data\\testZippage\\sous-titres-adezipper\\xfiles\\XFiles-s09e19-20.srt", ENCODING)
+# Récupérer la liste des .sub à transformer en texte
+liste_fichiers_sub = subToTxt.lister_sub(DOSSIER)
+# print(liste_fichiers_sub)
 
+compteur = 0
+total = len(liste_fichiers_sub)
+for element in liste_fichiers_sub:
+    subToTxt.filtrage(element,DOSSIER_DESTINATION,ENCODING)
+    compteur += 1
+    print(f"{compteur} / {total} fichier .sub traités")
+print(f"{compteur} / {total} fichier .sub traités")
 
 # # Récupérer la liste des .sub à transformer en texte
 # liste_fichiers_sub = subToTxt.lister_sub(DOSSIER)
-# print("2")
-# # Récupérer la liste des .ass à transformer en texte
-# liste_fichiers_ass = assToTxt.lister_ass(DOSSIER)
-# print("3")
-# # Récupérer les fichiers .txt pour exécuter le tf-idf
+# # print(liste_fichiers_sub)
 
-# #print(liste_fichiers_srt, liste_fichiers_sub, liste_fichiers_ass)
+# compteur = 0
+# total = len(liste_fichiers_sub)
+# for element in liste_fichiers_sub:
+#     subToTxt.filtrage(element,ENCODING)
+#     compteur += 1
+#     print(f"{compteur} / {total} fichier .sub traités")
+# print(f"{compteur} / {total} fichier .sub traités")
+
+##########################
+###### LEMATISATION ######
+##########################
+
+# liste_fichiers_txt = lema.lister_txt(DOSSIER)
+
+# compteur = 0
+# total = len(liste_fichiers_txt)
+# for element in liste_fichiers_txt:
+#     lema.lematiser(element)
+#     compteur += 1
+#     print(f"{compteur} / {total} fichier .txt traités")
+# print(f"{compteur} / {total} fichier .txt traités")

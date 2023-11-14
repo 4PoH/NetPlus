@@ -6,68 +6,15 @@ import unidecode
 ###############################
 
 def lister_srt(dossierDepart):
-    srt,vo,ass,sub = 0,0,0,0
     # Fonction pour obtenir la liste des fichiers sous un dossier donné
     srt_files = [] # Liste pour stocker les fichiers .srt
     for dirpath, dirnames, filenames in os.walk(dossierDepart, topdown=True):
-      for filename in filenames:
-        if (filename.endswith(".srt")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            srt += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".SRT")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            srt += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".vo")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            vo += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".VO")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            vo += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".ass")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            ass += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".ASS")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            ass += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".sub")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            sub += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-        if (filename.endswith(".SUB")):
-          path = os.path.join(dirpath, filename)
-          if path not in srt_files:
-            sub += 1
-            srt_files.append(path)
-            # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
-
-    print(f".srt = {srt}, .vo = {vo}, ass = {ass}, sub = {sub}")
+        for filename in filenames:
+            if filename.endswith(".srt") or filename.endswith(".SRT"):
+                path = os.path.join(dirpath, filename)
+                if path not in srt_files:
+                    srt_files.append(path)
+                    # Ajouter le chemin du fichier .srt uniquement s'il n'est pas déjà dans la liste
     return srt_files
 
 ###############################
@@ -116,65 +63,55 @@ def is_lowercase_letter_or_comma(letter):
 ###############################
 ###############################
 
-def remove_items(line):
-  newline = line.replace('<i>', '').replace('</i>', '')
-  newline = newline.replace(' -', '').replace('- ', '')
-  newline = newline.replace('(', '').replace(')', '')
-  newline = newline.replace(' :', '').replace(': ', '').replace(':', '')
-  newline = newline.replace('...', '')
-  newline = newline.replace('.', '')
-  newline = newline.replace('?', '')
-  newline = newline.replace('!', '')
-  newline = newline.replace(',', '')
-  newline = newline.replace('"', '')
-  return newline
-
-###############################
-###############################
-
 def clean_up(lines):
-  """
-  Get rid of all non-text lines and
-  try to combine text broken into multiple lines
-  Also, convert all characters to lowercase
-  """
-  new_lines = []
-  for line in lines[1:]:
-    line = remove_items(line)
-    if has_no_text(line):
-      continue  
-    elif len(new_lines) and is_lowercase_letter_or_comma(line[0]):
-      # combine with previous line
-      new_lines[-1] = new_lines[-1].strip() + ' ' + line.lower()  # Convert to lowercase
-    else:
-      # append line
-      new_lines.append(line.lower())  # Convert to lowercase
-  return new_lines
+    new_lines = []
+    inside_i_tag = False
+
+    for line in lines[1:]:
+        if has_no_text(line):
+            continue
+        
+        if '<i>' in line:
+            inside_i_tag = True
+            line = line.replace('<i>', '')
+        if '</i>' in line:
+            inside_i_tag = False
+            line = line.replace('</i>', '')
+
+        if inside_i_tag and len(new_lines):
+            new_lines[-1] += ' ' + line.lower()
+        else:
+            new_lines.append(line.lower())
+
+    return new_lines
 
 ###############################
 ###############################
 
-def filtrage(fichier, encoding='utf-8'):
-  """
-  fichier : nom fichier srt
-  encoding : encoding par default : utf-8
-  """
-  new_lines = []
+def filtrage(fichier, fichier_destination, encoding='utf-8'):
+    """
+    fichier : nom fichier srt
+    encoding : encoding par défaut : utf-8
+    """
+    new_lines = []
 
-  with open(fichier, encoding=encoding, errors='replace') as f:
-    lines = f.readlines()
-    new_lines.extend(clean_up(lines))
+    with open(fichier, encoding=encoding, errors='replace') as f:
+        lines = f.readlines()
+        new_lines.extend(clean_up(lines))
 
-  dossier_name = os.path.basename(os.path.dirname(fichier))  # Obtient le nom du répertoire
-  new_file_name = os.path.join(os.path.dirname(fichier), f"{dossier_name}.txt")  # Crée le nom du fichier texte
+    # Crée le dossier si nécessaire
+    destination_folder = os.path.dirname(fichier_destination)
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
 
-  mode = 'a' if os.path.exists(new_file_name) else 'w'  # Détermine le mode d'ouverture
+    mode = 'a' if os.path.exists(fichier_destination) else 'w'  # Détermine le mode d'ouverture
 
-  with open(new_file_name, mode) as f:
-    for line in new_lines:
-      line = unidecode.unidecode(line)
-      f.write(line)
-  #print(new_file_name)
+    destination = os.path.normpath(fichier_destination)
+
+    with open(destination, mode) as f:
+        for line in new_lines:
+            line = unidecode.unidecode(line)
+            f.write(line)
 
 ###############################
 ###############################
