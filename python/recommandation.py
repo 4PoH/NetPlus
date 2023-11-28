@@ -27,7 +27,8 @@ UserID = 123
 # print(series_user_test)
 
 series = get_all_series()
-print(series)
+print(len(series))
+print(sorted(series))
 
 def mots_pour_serie(nom_serie):
     result = db.séries.find({"liste_series.serie": nom_serie}, {"Mot": 1, "_id": 0})
@@ -39,4 +40,4 @@ serie_a_rechercher = "Lost"  # Remplacez par le nom de la série recherchée
 mots_contenant_serie = mots_pour_serie(serie_a_rechercher)
 
 print(f"Les mots contenant la série '{serie_a_rechercher}':")
-print(mots_contenant_serie)
+#print(mots_contenant_serie)
