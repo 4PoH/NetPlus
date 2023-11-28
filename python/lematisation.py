@@ -13,13 +13,18 @@ def lister_txt(dossierDepart):
                     # Ajouter le chemin du fichier .txt uniquement s'il n'est pas déjà dans la liste
     return txt_files
 
-def lematiser(fichier):
+def lematiser_file(fichier):
     file = open(fichier, "r")
     texte = " ".join(slemma.text_lemmatizer(file.read(), lang=('en', 'fr'), greedy=True))
     file.close
  
     newfile = open(fichier, "w")
     newfile.write(texte)
+
+# Permet de lemmatiser un "texte"
+def lemmatiser_keyword(motsCles):
+    texte_lemmatise = " ".join(text_lemmatizer(motsCles, lang=('en', 'fr'), greedy=True))
+    return texte_lemmatise
 
 #liste_txt = lister_txt("NetPlus\data\sous-titres-Copie1")
 #lematiser("NetPlus/data/sous-titres-Copie1/breakingbad/breakingbad.txt")

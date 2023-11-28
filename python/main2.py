@@ -6,6 +6,7 @@ import unzipClean as unzipClean
 import shutil
 import os
 import time
+import decoupe_TFIDF
 
 #######################
 ###### VARIABLES ######
@@ -13,8 +14,8 @@ import time
 
 #DOSSIER = "NetPlus\data\sous-titres-Copie"  # Remplacez par le chemin de votre dossier
 DOSSIER = "NetPlus\data\sous"
-REPERTOIRE_DESTINATION = "series"
-DESTINATION = os.path.join(DOSSIER, REPERTOIRE_DESTINATION)
+REPERTOIRE_DESTINATION_TRAITEMENT = "series"
+DESTINATION = os.path.join(DOSSIER, REPERTOIRE_DESTINATION_TRAITEMENT)
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
 ENCODING = "ansi"
 
@@ -58,7 +59,7 @@ t1 = time.time()
 noms_serie = []
 
 for path, dirs, files in os.walk(DOSSIER):
-    if (REPERTOIRE_DESTINATION) in dirs:
+    if (REPERTOIRE_DESTINATION_TRAITEMENT) in dirs:
         shutil.rmtree()
 
 for path, dirs, files in os.walk(DOSSIER):
