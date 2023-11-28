@@ -13,7 +13,7 @@ import time
 
 #DOSSIER = "NetPlus\data\sous-titres-Copie"  # Remplacez par le chemin de votre dossier
 DOSSIER = "NetPlus\data\sous"
-REPERTOIRE_DESTINATION = "1txt"
+REPERTOIRE_DESTINATION = "series"
 DESTINATION = os.path.join(DOSSIER, REPERTOIRE_DESTINATION)
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
 ENCODING = "ansi"
