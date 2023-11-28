@@ -1,6 +1,7 @@
 import os
 import re
 import unidecode
+import unwantedItem
 
 ###############################
 ###############################
@@ -64,26 +65,25 @@ def is_lowercase_letter_or_comma(letter):
 ###############################
 
 def clean_up(lines):
-    new_lines = []
-    inside_i_tag = False
+  new_lines = []
+  inside_i_tag = False
 
-    for line in lines[1:]:
-        if has_no_text(line):
-            continue
-        
-        if '<i>' in line:
-            inside_i_tag = True
-            line = line.replace('<i>', '')
-        if '</i>' in line:
-            inside_i_tag = False
-            line = line.replace('</i>', '')
+  for line in lines[1:]:
+    line = unwantedItem.remove_items(line)
+    if has_no_text(line):
+      continue
+    if '<i>' in line:
+      inside_i_tag = True
+      line = line.replace('<i>', '')
+    if '</i>' in line:
+      inside_i_tag = False
+      line = line.replace('</i>', '')
 
-        if inside_i_tag and len(new_lines):
-            new_lines[-1] += ' ' + line.lower()
-        else:
-            new_lines.append(line.lower())
-
-    return new_lines
+    if inside_i_tag and len(new_lines):
+      new_lines[-1] += ' ' + line.lower()
+    else:
+      new_lines.append(line.lower())
+  return new_lines
 
 ###############################
 ###############################

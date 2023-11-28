@@ -1,6 +1,7 @@
 import re
 import os
 import unidecode
+import unwantedItem
 
 def recup_dialogue(input_lines):
     subtitles = []
@@ -12,15 +13,6 @@ def recup_dialogue(input_lines):
             text = ','.join(parts[9:]).strip()
             subtitles.append(f"{start_time} --> {end_time}\n{text}\n\n")
     return subtitles
-
-def cleanSubtitleText(subtitle_text):
-    # Supprimer les balises <i> et </i>
-    cleaned_text = subtitle_text.replace('<i>', '').replace('</i>', '')
-    
-    # Retirer les retours à la ligne et les espaces en double
-    cleaned_text = cleaned_text.replace('\n', ' ').replace('  ', ' ')
-    
-    return cleaned_text.strip()
 
 ###############################
 ###############################
@@ -36,7 +28,7 @@ def filtrage(fichier, fichier_destination, encoding='utf-8'):
         lines = f.readlines()
         dialogues = recup_dialogue(lines)
         for dialogue in dialogues:
-            cleaned_text = cleanSubtitleText(dialogue)
+            cleaned_text = unwantedItem.remove_items(dialogue)
             new_lines.extend(cleaned_text)
 
     # Crée le dossier si nécessaire

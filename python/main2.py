@@ -5,12 +5,14 @@ import lematisation as lema
 import unzipClean as unzipClean
 import shutil
 import os
+import time
 
 #######################
 ###### VARIABLES ######
 #######################
 
-DOSSIER = "data/sous-titres-Copie"  # Remplacez par le chemin de votre dossier
+#DOSSIER = "NetPlus\data\sous-titres-Copie"  # Remplacez par le chemin de votre dossier
+DOSSIER = "NetPlus\data\sous"
 REPERTOIRE_DESTINATION = "1txt"
 DESTINATION = os.path.join(DOSSIER, REPERTOIRE_DESTINATION)
 FICHIER_CSV = "liste_dossiers.csv"   # Nom du fichier CSV de sortie
@@ -38,11 +40,23 @@ ENCODING = "ansi"
 ###### EXECUTION ######
 #######################
 
+t0 = time.time()
+
+##########################
+###### DEZIPPAGE ######
+##########################
+
+
 # Dézipper les fichiers à partir du répertoire donné
 unzipClean.unzip_clean(DOSSIER)
+t1 = time.time()
+
+##########################
+###### TRAITEMENT ######
+##########################
 
 noms_serie = []
-print(noms_serie)
+
 for path, dirs, files in os.walk(DOSSIER):
     if (REPERTOIRE_DESTINATION) in dirs:
         shutil.rmtree()
@@ -72,11 +86,28 @@ for path, dirs, files in os.walk(DOSSIER):
             assToTxt.filtrage(os.path.normpath(os.path.join(path,filename)), txtFile, ENCODING)
             print("ass")
 
+t2 = time.time()
 
 ##########################
-###### LEMATISATION ###### 
+###### LEMATISATION ######
 ##########################
 
 for path, dirs, files in os.walk(DESTINATION):
     for filename in files:
         lema.lematiser(os.path.join(DESTINATION,filename))
+
+t3 = time.time()
+
+##########################
+###### TF IDF ######
+##########################
+
+
+t4 = time.time()
+##########################
+
+
+print("Temps unzip :" + str(t1-t0))
+print("Temps traitement :" + str(t2-t1))
+print("Temps lemmatisation :" + str(t3-t2))
+print("Temps TF-IDF :" + str(t4-t3))

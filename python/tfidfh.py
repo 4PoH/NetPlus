@@ -6,6 +6,8 @@ def decoupe(texte):
     texte_decoupe = list(re.split('; |, |\' |\n |\s+', texte))
     return " ".join(texte_decoupe) # permet de transformer une liste en string
 
+
+
 def lire_fichier(nom_fichier):
     try:
         with open(nom_fichier, 'r', encoding='ansi') as fichier:
