@@ -35,12 +35,11 @@ def creer_csv_series(dossier_series, dossier_sortie):
             mots_cles_pondere = sorted(mots_cles_pondere, key=lambda x: x[1], reverse=True)
             
             nom_sortie = os.path.splitext(nom_fichier)[0] + ".csv"
-            # chemin_sortie = os.path.join(dossier_sortie, nom_sortie)
+            chemin_sortie = os.path.join(dossier_sortie, nom_sortie)
             
             # limite_mots = 50000
 
-            # with open(chemin_sortie, "w", newline='') as fichier_csv:
-            with open(os.path.join(dossier_sortie, nom_sortie), "w+", newline='') as fichier_csv:
+            with open(chemin_sortie, "w", newline='') as fichier_csv:
                 writer = csv.writer(fichier_csv)
                 writer.writerow(["Mot", "Poids"])  
                 
@@ -49,4 +48,8 @@ def creer_csv_series(dossier_series, dossier_sortie):
                 for mot, poids in mots_cles_pondere:
                     # if mots_inclus < limite_mots:
                     writer.writerow([mot, poids])
-                    mots_inclus += 1
+                    mots_inclus += 1 
+
+dossier_series = "series"
+dossier_sortie = "listes_mots_series"
+creer_csv_series(dossier_series, dossier_sortie)

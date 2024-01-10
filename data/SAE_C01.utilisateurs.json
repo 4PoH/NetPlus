@@ -1,0 +1,48 @@
+[{
+  "_id": {
+    "$oid": "659d933956c75437bbfb97b5"
+  },
+  "Nom": "John Doe",
+  "id": 12345,
+  "password": "securePassword123",
+  "listeSeries": [
+    {
+      "Titre": "Breaking Bad"
+    },
+    {
+      "Titre": "Prison Break"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "659d968856c75437bbfb97b7"
+  },
+  "Nom": "Nino",
+  "id": 272727,
+  "password": "securePassword123",
+  "listeSeries": [
+    {
+      "Titre": "NCIS"
+    },
+    {
+      "Titre": "The Shield"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "659d96fd56c75437bbfb97b8"
+  },
+  "Nom": "Anass",
+  "id": 81003,
+  "password": "securePassword123",
+  "listeSeries": [
+    {
+      "Titre": "Charmed"
+    },
+    {
+      "Titre": "24"
+    }
+  ]
+}]

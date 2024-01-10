@@ -53,7 +53,7 @@ def creer_dictionnaire_mots_cles(repertoire_series, chemin_fichier_csv):
 
 def importer_donnees_mongo(dictionnaire_mots_cles):
     client = pymongo.MongoClient("mongodb://localhost:27017/") 
-    database = client["SAEC01"]
+    database = client["SAE_C01"]
     collection = database["séries"]
     
     barre_progression = tqdm(dictionnaire_mots_cles.items(), desc="Importation des données", unit="mot")
@@ -63,3 +63,16 @@ def importer_donnees_mongo(dictionnaire_mots_cles):
         collection.insert_one(jsonFormat)
     
     client.close()
+
+repertoire_series = "NetPlus/data/sous-titres/1liste_series"
+chemin_fichier_csv = "NetPlus/data/1TitreSeries.csv"
+
+dictionnaire_mots_cles = creer_dictionnaire_mots_cles(repertoire_series, chemin_fichier_csv)
+chemin_fichier_json = "mots_cles.json"
+
+with open(chemin_fichier_json, "w", encoding="utf-8") as fichier_json:
+    json.dump(dictionnaire_mots_cles, fichier_json, indent=4)
+
+importer_donnees_mongo(dictionnaire_mots_cles)
+
+print(f"Le dictionnaire des mots-clés a été importé dans la collection MongoDB.")
