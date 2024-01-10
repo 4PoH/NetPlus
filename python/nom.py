@@ -7,7 +7,7 @@ def lister_noms_dossiers(dossier, fichier_csv):
     noms_dossiers = [nom for nom in os.listdir(dossier) if os.path.isdir(os.path.join(dossier, nom))]
     
     # Écrire les noms de dossiers dans un fichier CSV
-    with open(fichier_csv, mode='w', newline='', encoding='utf-8') as csvfile:
+    with open(os.path.join(dossier, fichier_csv), mode='w+', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(['Nom du Dossier'])
         for nom_dossier in noms_dossiers:

@@ -22,8 +22,3 @@ def unzip_clean(starting_dir, return_broken_zip=False):
                         broken_zip.append(filename)
                         print(f" ERROR : {filename}")
                         continue
-
-    # if return_broken_zip == True:
-    #     return broken_zip
-
-# unzip_clean("NetPlus/data/tests-Copie")

@@ -40,4 +40,4 @@ serie_a_rechercher = "Lost"  # Remplacez par le nom de la série recherchée
 mots_contenant_serie = mots_pour_serie(serie_a_rechercher)
 
 print(f"Les mots contenant la série '{serie_a_rechercher}':")
-#print(mots_contenant_serie)
+print(mots_contenant_serie)
