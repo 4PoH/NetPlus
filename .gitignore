@@ -1,3 +1,4 @@
+# Ignorer tous les fichiers avec ces extensions
 *.zip
 *.srt
 *.txt
@@ -9,3 +10,6 @@
 *.vbs
 *.csv
 *.pyc
+
+# Sauf le fichier liste_dossier.csv
+!liste_dossiers.csv
