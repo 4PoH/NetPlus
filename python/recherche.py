@@ -43,7 +43,7 @@ def recherche_series_coll(mots_cles_recherche):
             liste_series.append(nom_serie["_id"])
 
     # Affiche toutes les séries trouvées
-    print("Liste des séries trouvées :", liste_series)
+    print("Nous pouvons vous proposer :")
 
     # Ajoute les séries associées à chaque mot-clé dans la liste
     for document in documents:
@@ -71,7 +71,7 @@ def recherche_series_coll(mots_cles_recherche):
     sorted_dict = dict(sorted(somme_poids_par_serie.items(), key=lambda item: item[1], reverse=True))
     
     # Affiche la somme des poids par série triée
-    print("\nSomme des poids par série :")
+    #print("\nSomme des poids par série :")
 
     # # Si la série n'est pas trouvée dans la vue, mais la liste des séries est vide, l'ajoute avec un poids de 100
     # if serie_trouvee and not sorted_dict:
@@ -87,9 +87,15 @@ def recherche_series_coll(mots_cles_recherche):
         for serie in liste_series:
             print(f"{serie}")
 
+    nbr_max_series = 10
+    series_affichees = 0
+
     for nom_serie, somme_poids in sorted_dict.items():
         somme_poids_affichee = min(somme_poids, 100)
         print(f"{nom_serie}")
+        series_affichees += 1
+        if series_affichees >= nbr_max_series:
+            break
     
     client.close()
 

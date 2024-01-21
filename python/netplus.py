@@ -15,14 +15,14 @@ def Netplus():
             pass
 
         if REPONSE == "1":
-            ENTREE_RECHERCHE = input("Veuillez indiquer le nom d'une série ou des mots clés")
+            ENTREE_RECHERCHE = input("Veuillez indiquer le nom d'une série ou des mots clés\n")
             recherche.recherche_series_coll(ENTREE_RECHERCHE)
 
         if REPONSE == "2":
-            print("Veuillez indiquer l'utilisateur pour lequel vous voulez des séries")
+            print("Voici les utilisateurs disponibles\n")
             users = gesuser.liste_users()
             afficher_utilisateurs(users)
-            ENTREE_RECOMMENDATION = input("Veuillez indiquer le nom de l'utilisateur : ")
+            ENTREE_RECOMMENDATION = input("Veuillez indiquer le nom de l'utilisateur : \n")
             recommandation.recommander(ENTREE_RECOMMENDATION)
             # Prévoir mauvais user
 

@@ -38,7 +38,7 @@ def recommander(nom_utilisateur):
 
             # Affiche les séries similaires
             print(f"Séries similaires aux séries visionnées par l'utilisateur:")
-            for index in indice_similarite_serie:
+            for index in indice_similarite_serie[:7]:
                 if series_data[index]["serie"] not in series_visionnees:  # Excluez les séries déjà visionnées
                     serie_similaire = series_data[index]["serie"]
                     similarite = cosinus_similarite[index]
