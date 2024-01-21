@@ -1,0 +1,33 @@
+{
+  $jsonSchema: {
+    bsonType: 'object',
+    title: 'dictionnaire_séries',
+    required: [
+      'Mot',
+      'liste_series'
+    ],
+    properties: {
+      Mot: {
+        bsonType: 'string'
+      },
+      liste_series: {
+        bsonType: 'array',
+        items: {
+          bsonType: 'object',
+          required: [
+            'serie',
+            'poids'
+          ],
+          properties: {
+            serie: {
+              bsonType: 'string'
+            },
+            poids: {
+              bsonType: 'number'
+            }
+          }
+        }
+      }
+    }
+  }
+}
